@@ -1,211 +1,294 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 struct student {
-    char name[20];
+    char studentName[20];
     int id;
-    int day,month,year;
-    int finalscore;
+    int day, month, year;
+    int finalScore;
 };
-
-struct student A(struct student x);
-
 struct node {
-    struct student stud;
-    struct node *next;
+    struct student info;
+    struct node* next;
 };
-
+int m, i;
+int n;
 struct node* head;
 struct node* tail;
-struct node* temp;
-struct node* aft;
-struct node* pre;
+struct student* temp;
+struct node* new_node;
+void linkedLists(void);
+void array(void);
+struct student insert(struct student y);
+void insertEnd_A(struct student* point, int m, struct student x);
+void insertFirst_A(struct student* point, int m, struct student x);
+void insertMiddle_A(struct student* point, int m, struct student x);
+void insertFirst_l(struct student x);
+void insertEnd_l(struct student x);
+void insertMiddle_l(struct student x, int y);
 
-struct student* p;
-struct student* newp;
 
-void insertlast();
-void insertB();
-void insertbeg(struct student x,int n);
-void insertbegenning();
-void insertend();
-void insertmiddle();
-void insertmid();
-
-int k;
-int n;
 
 
 int main()
 {
-     k=4;
-    struct student z;
-    printf("Welcome to our project\n");
-    printf("Please enter the number of students ");
-    scanf("%d",n);
+    printf("Welcome to our project \n\n");
+    int z;
+    printf("please choose your suitable choice\n");
+    printf("1-linked lists , 2-dynamic array \n");
+    scanf("%d", &z);
+    switch (z)
+    {
+        case 1 :
+            linkedLists();
+            break;
+        case 2 :
+            array();
+            break;
+        default: printf("please Enter a suitable choice");
+            break;
+    }
 
-    p= (struct student*)calloc(n, sizeof(struct student));
 
+    for (i = 1;i <= n;i++)
+    {
+        printf("Name of Student please : ");
+        printf("%s\n", (((temp + (i - 1))->studentName)));
+    }
 
-    /*insertbeg(z,n);*/
-    int i=1;
-    while(i<=n)
-{
- *(p+(i-1))=A(z);
- i=i+1;
- }
     return 0;
-};
-
-void insertbeginning(struct student x){
-
-temp=(struct node* )malloc(sizeof(struct node));
-
-if (n==0){
-    head=tail=temp;
-    temp->next= NULL;
-    temp->stud= A(x);
 }
-else {
+void linkedLists(void)
+{
+    int h;
+    m = 0;
+    struct student s;
+    s.day = 0;
+    s.month = 0;
+    s.year = 0;
+    s.id = 0;
+    s.finalScore = 0;
+    head = NULL;
+    tail = NULL;
+    printf("Enter the number of students please: \n");
+    scanf("%i", &n);
+    for (i = 1;i <= n;i++)
+    {
+        insertEnd_l(s);
+    }
 
-    temp->next=head;
-    temp=head;
-    temp->stud= A(x);
+
+    printf("1-insert at first \n 2-insert at end \n 3-insert at middle \n 0-exit \n");
+    scanf("%d", &h);
+    switch (h)
+    {
+        case 1:
+            insertFirst_l(s);
+            break;
+        case 2:
+            insertEnd_l(s);
+            break;
+        case 3:
+            insertMiddle_l(s, n);
+        case 0:
+            break;
+    }
+
 }
 
-n++;
-
-};
-
-void insertend(struct student x){
-
-temp=(struct node* )malloc(sizeof(struct node));
-
-if (n==0){
-
-    head=tail=temp;
-    temp->next= NULL;
-    temp->stud= A(x);
-
-}
-else {
-
-    tail->next=temp;
-    temp->next=NULL;
-    temp->stud=A(x);
+void array(void)
+{
+    int h;
+    struct student* ptr;
+    struct student s;
+    s.day = 0;
+    s.month = 0;
+    s.year = 0;
+    s.id = 0;
+    s.finalScore = 0;
+    printf("Enter number of students please: \n ");
+    scanf("%i", &n);
+    ptr = (struct student*)malloc(n * sizeof(struct student));
+    int k;
+    for (i = 1;i <= n;i++)
+    {
+        *(ptr + (i - 1)) = insert(s);
 
     }
 
-n++;
-
-};
-
-void insertmiddle(struct student x){
-
-temp=(struct node* )malloc(sizeof(struct node));
-
-if (n==0){
-
-    head=tail=temp;
-    temp->next= NULL;
-    temp->stud= A(x);
+    printf("1-insert at beginning \n 2-insert at end \n 3-insert at middle \n 0-exit \n");
+    scanf("%d", &h);
+    switch (h)
+    {
+        case 1:
+        {
+            insertFirst_A(ptr, n, s);
+            n++;
+            break;
+        }
+        case 2:
+        {
+            insertEnd_A(ptr, n, s);
+            n++;
+            break;
+        }
+        case 3:
+        {
+            insertMiddle_A(ptr, n, s);
+            n++;
+            break;
+        }
+        case 0:
+            break;
+    }
 
 }
-else {
 
-    pre=head;
 
-for (int i=0;i<k-1;i++){
+void insertEnd_A(struct student* point, int m, struct student x)
+{
+    m++;
+    /*struct student* temp;*/
+    printf("Enter the new student please\n");
+    temp = (struct student*)realloc(point, (m) * sizeof(struct student));
+    *(temp + m-1) = insert(x);
+    /*free(point);*/
+    /*printf("%i", temp->id);*/
 
-    pre=pre->next;
 
 }
-    aft=pre->next;
-    temp=pre->next;
-    temp->next=aft;
-    temp->stud=A(x);
-    };
 
-n++;
+void insertFirst_A(struct student* point, int m, struct student x)
+{
+    m++;
+    int k;
+    /*struct student* temp;*/
+    temp = (struct student*)realloc(point, (m) * sizeof(struct student));
+    for (k = m-1;k >= 1;k--)
+    {
+        *(temp + k) = *(temp + (k - 1));
 
-};
-
-struct student A(struct student x){
-
-
-printf("Please enter the student name ");
-fflush(stdin);
-gets(x.name);
-
-printf("Please enter the student ID ");
-scanf("%i",&(x.id));
-
-printf("Please enter the student year of birth ");
-scanf("%i",&(x.year));
-
-printf("Please enter the student month of birth ");
-scanf("%i",&(x.month));
-
-printf("Please enter the student day of birth ");
-scanf("%i",&(x.day));
-
-printf("Please enter the student final score ");
-scanf("%i",&(x.finalscore));
-
-return x;
-
-};
-//--------------------------------------------------------------------
-//----------------------------------------------------------------------
-//-------------------------------------------------------------------------
-
-void insertB(){
-p = calloc(2, sizeof(struct student));
-for(int i=0;i<2;i++){
-    struct student c = {.name = "student", .id = i+1, .day = i+1, .month = i+1, .year = i+1, .finalscore = i+1};
-    *(p+i) =c;
+    }
+    printf("Enter the new student please \n");
+    *temp = insert(x);
 }
-    printf ("name = %s, id= %d, day = %d\n", p->name, p->day, p->id);
-    printf ("name = %s, id= %d, day = %d\n", (p+1)->name, (p+1)->day, (p+1)->id);
-};
 
-void insertbeg(struct student y,int n){
+void insertMiddle_A(struct student* point, int m, struct student x)
+{
+    int k;
+    m++;
+    /*struct student* temp;*/
+    temp = (struct student*)realloc(point, (m) * sizeof(struct student));
+    if ((m) % 2 == 0) {
+        for (k = m-1;k > (m) / 2;k--)
+        {
+            *(temp + k) = *(temp + (k - 1));
 
-newp=(struct student*)realloc(p,(n+1)*sizeof(struct student));
+        }
+        printf("Enter the new student please \n");
+        *(temp + ((m) / 2)) = insert(x);
+    }
+    else
+    {
+        for (k = m-1;k > m / 2;k--)
+        {
+            *(temp + k) = *(temp + (k - 1));
 
-for(int i=0;i<n+1;i++){
-  *(newp+(n+1)-i) = *(newp+n-i);
-};
+        }
+        printf("Enter the new student please \n");
+        *(temp + (m / 2)) = insert(x);
+    }
+}
 
-*newp = A(y)
-;
-printf ("%d", p->id);
+struct student insert(struct student y)
+{
+    printf("enter name of student please \n");
+    fflush(stdin);
+    scanf("%*c");
+    fgets(y.studentName, sizeof(y.studentName), stdin);
+    printf("Enter id of student please\n");
+    scanf("%i", &(y.id));
+    printf("Enter the day of birth please :\n");
+    scanf("%i", &(y.day));
+    printf("Enter the month of birth please :\n");
+    scanf("%i", &(y.month));
+    printf("Enter year of birth please :\n");
+    scanf("%i", &(y.year));
+    printf("Enter final score please :\n");
+    scanf("%i", &(y.finalScore));
+    return y;
+}
 
-};
+void insertFirst_l(struct student x)
+{
+    if (m == 0)
+    {
+        new_node = (struct node*)malloc(sizeof(struct node));
+        head = tail = new_node;
+        new_node->next = NULL;
+        new_node->info = insert(x);
 
-void insertmid(struct student y,int n,int k){
+    }
+    else
+    {
+        new_node = (struct node*)malloc(sizeof(struct node));
+        new_node->next = head;
+        head = new_node;
+        new_node->info = insert(x);
+    }
+    m++;
+}
 
-newp=(struct student*)realloc(p,(n+1)*sizeof(struct student));
-
-for(int i=0;i<n+1;i++){
-
-  while(i=k){
-  *(newp+(n+1)-i) = *(newp+n-i);
-    };
-    *(newp+k) = A(y)
-;
-};
-
-};
+void insertEnd_l(struct student x)
+{
+    if (m == 0)
+    {
+        new_node = (struct node*)malloc(sizeof(struct node));
+        head = tail = new_node;
+        new_node->next = NULL;
+        new_node->info = insert(x);
 
 
-void insertlast(struct student y,int n){
+    }
+    else
+    {
+        new_node = (struct node*)malloc(sizeof(struct node));
+        tail->next = new_node;
+        new_node->next = NULL;
+        tail = new_node;
+        new_node->info = insert(x);
 
-newp=(struct student*)realloc(p,(n+1)*sizeof(struct student));
+    }
+    m++;
+}
+void insertMiddle_l(struct student x, int y)
+{
+    int d;//counter
+    struct node* curr;
+    new_node = (struct node*)malloc(sizeof(struct node));
+    curr = head;
+    if ((y + 1) % 2 == 0)
+    {
+        for (d = 1;d < (y + 1) / 2;d++)
+        {
+            curr = curr->next;
+        }
+        new_node->next = curr->next;
+        curr->next = new_node;
+        printf("\n enter the new student \n");
+        new_node->info = insert(x);
+        m++;
+    }
+    else
+    {
+        for (d = 1;d < y / 2;d++)
+        {
+            curr = curr->next;
+        }
+        new_node->next = curr->next;
+        curr->next = new_node;
+        printf("\n enter the new student \n");
+        new_node->info = insert(x);
+        m++;
+    }
 
-*(newp+n+1) = A(y)
-;
-
-printf ("%d", p->id);
-
-};
+}
